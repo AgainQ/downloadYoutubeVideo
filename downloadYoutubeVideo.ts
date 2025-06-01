@@ -17,13 +17,16 @@ export async function downloadYoutubeVideo(url: string, videoName: string) {
   const downloadPath = path.resolve(__dirname, `videos/${videoName}.mp4`);
 
   console.log(`Start downloading video ${url}`);
-  const proxyGermany = 'socks5://nyRg8C2D:irqski6G@154.196.77.86:64269';
+  const proxyFrance = 'socks5://nyRg8C2D:irqski6G@194.87.36.138:62417';
 
+  // cookies don't need --cookies-from-browser firefox
+  // proxy don't need  --proxy "${proxyFrance}"
   try {
     const { stdout } = await execPromise(
-      `yt-dlp --proxy "${proxyGermany}" --cookies-from-browser firefox -f "bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720]" \
-      --merge-output-format mp4 \
-      -4 ${url} -o "${downloadPath}"`
+      `yt-dlp \
+       -f "bestvideo+bestaudio/best" \
+       --merge-output-format mp4 \
+       -4 ${url} -o "${downloadPath}"`
     );
 
     // `yt-dlp -f  "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best" --merge-output-format mp4 \
@@ -36,7 +39,7 @@ export async function downloadYoutubeVideo(url: string, videoName: string) {
   }
 }
 
-const url = 'https://www.youtube.com/shorts/3nfVRiruvd4';
-downloadYoutubeVideo(url, 'Здесь веселок');
+// const url = 'https://www.youtube.com/shorts/3nfVRiruvd4';
+// downloadYoutubeVideo(url, 'Здесь веселок');
 
 // const videoId = url.split('/').at(-1)
